@@ -1,8 +1,9 @@
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/src/App.jsx b/src/App.jsx
-index afdc24b043b451d3b75a91354ceac7df86f7d85c..0529f55188c92e008efde89df19492b86aa4af52 100644
+index afdc24b043b451d3b75a91354ceac7df86f7d85c..0f2369bb4954d4a9512dc5d2d96859f0f0d3e3e1 100644
 --- a/src/App.jsx
 +++ b/src/App.jsx
-@@ -719,106 +719,103 @@ function SuccessScreen({ctx}){
+@@ -719,106 +719,104 @@ function SuccessScreen({ctx}){
        <a href={`https://wa.me/${booking.masterWA}?text=${waMsg}`} target="_blank" rel="noreferrer"
          style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12,width:"100%",padding:"16px",background:"#25D366",borderRadius:T.btnRadius,textDecoration:"none",marginBottom:12,boxShadow:"0 6px 20px rgba(37,211,102,.25)"}}>
          <span style={{fontSize:22}}>💬</span>
@@ -30,7 +31,8 @@ index afdc24b043b451d3b75a91354ceac7df86f7d85c..0529f55188c92e008efde89df19492b8
    const login=()=>{
 -    if(form.email==="admin@beauty.il"&&form.password==="admin123"){
 -      const adm={id:"admin",name:"Администратор",email:"admin@beauty.il",role:"admin"};
-+    if(form.email.trim()==="admin"&&form.password==="ZXCVasdfqwer"){
++    const loginValue=form.email.trim().toLowerCase();
++    if(loginValue==="admin"&&form.password==="ZXCVasdfqwer"){
 +      const adm={id:"admin",name:"Администратор",email:"admin",role:"admin"};
        setMe(adm);lsSave("il_me",adm);showToast("Добро пожаловать, Admin! 👑");setScreen("home");return;
      }
@@ -86,7 +88,7 @@ index afdc24b043b451d3b75a91354ceac7df86f7d85c..0529f55188c92e008efde89df19492b8
 -              🔑 Администратор: <strong style={{color:T.accent}}>admin@beauty.il</strong> / <strong style={{color:T.accent}}>admin123</strong>
 -            </div>
 -            {[{id:"email",lbl:"Email",ph:"your@email.com",type:"email"},{id:"password",lbl:"Пароль",ph:"••••••••",type:"password"}].map(f=>(
-+            {[{id:"email",lbl:"Email",ph:"your@email.com",type:"text"},{id:"password",lbl:"Пароль",ph:"••••••••",type:"password"}].map(f=>(
++            {[{id:"email",lbl:"Email или логин",ph:"your@email.com или admin",type:"text"},{id:"password",lbl:"Пароль",ph:"••••••••",type:"password"}].map(f=>(
                <FG key={f.id} T={T} label={f.lbl} error={errs[f.id]}>
                  <input type={f.type} value={form[f.id]} placeholder={f.ph} onChange={e=>{setForm({...form,[f.id]:e.target.value});setErrs({...errs,[f.id]:""}); }}
                    style={{width:"100%",...IS(T,!!errs[f.id])}}/>
@@ -112,3 +114,6 @@ index afdc24b043b451d3b75a91354ceac7df86f7d85c..0529f55188c92e008efde89df19492b8
              </FG>
              <FG T={T} label="Район / Улица" error={errs.district} req>
                <input value={form.district} placeholder="Кармель, Хадар..." onChange={e=>{setForm({...form,district:e.target.value});setErrs({...errs,district:""}); }} style={{width:"100%",...IS(T,!!errs.district)}}/>
+ 
+EOF
+)
